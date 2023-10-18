@@ -3,7 +3,6 @@ import sqlite3
 
 app = Flask(__name__)
 
-# SQLite database initialization
 def init_db():
     conn = sqlite3.connect('items.db')
     c = conn.cursor()
@@ -14,20 +13,17 @@ def init_db():
 
 init_db()
 
-# Routes
 @app.route('/')
 def index():
-    sort_by = request.args.get('sort_by', 'id')  # Default sort by ID
-    search_query = request.args.get('search', '')  # Get search query from URL parameters
+    sort_by = request.args.get('sort_by', 'id')  
+    search_query = request.args.get('search', '')  
     conn = sqlite3.connect('items.db')
     c = conn.cursor()
 
     if search_query:
-        # If search query is provided, filter items by ID, name, or description containing the search query
         c.execute('SELECT * FROM items WHERE id LIKE ? OR name LIKE ? OR description LIKE ? ORDER BY {}'.format(sort_by),
                   ('%{}%'.format(search_query), '%{}%'.format(search_query), '%{}%'.format(search_query)))
     else:
-        # If no search query, retrieve all items and sort them based on the selected attribute
         c.execute('SELECT * FROM items ORDER BY {}'.format(sort_by))
 
     items = c.fetchall()
