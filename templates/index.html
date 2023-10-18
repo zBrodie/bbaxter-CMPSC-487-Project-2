@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+    <title>Item List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Item List</h1>
+
+    <!-- Search form -->
+    <form action="/" method="get">
+        <label for="search">Search:</label>
+        <input type="text" id="search" name="search" value="{{ search_query }}">
+        <input type="submit" value="Search">
+    </form>
+
+    <!-- Table header with sorting links -->
+    <table>
+        <tr>
+            <th><a href="?sort_by=id">ID</a></th>
+            <th><a href="?sort_by=name">Name</a></th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for item in items %}
+            <tr>
+                <td>{{ item[0] }}</td>
+                <td>{{ item[1] }}</td>
+                <td>{{ item[2] }}</td>
+                <td><img src="{{ item[3] }}" alt="{{ item[1] }}"></td>
+                <td>
+                    <a href="{{ url_for('edit', item_id=item[0]) }}">Edit</a> |
+                    <a href="{{ url_for('delete', item_id=item[0]) }}">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Add New Item</h2>
+    <form action="/add" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required><br>
+        <label for="image">Image URL:</label>
+        <input type="text" id="image" name="image" required><br>
+        <input type="submit" value="Add Item">
+    </form>
+</body>
+</html>

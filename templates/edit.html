@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<head>
+    <title>Edit Item</title>
+</head>
+<body>
+    <h1>Edit Item</h1>
+    <form action="/edit/{{ item[0] }}" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ item[1] }}" required><br>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" value="{{ item[2] }}" required><br>
+        <label for="image">Image URL:</label>
+        <input type="text" id="image" name="image" value="{{ item[3] }}" required><br>
+        <input type="submit" value="Save Changes">
+    </form>
+</body>
+</html>
